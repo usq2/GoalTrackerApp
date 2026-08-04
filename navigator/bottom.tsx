@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { MissionScreen } from '../screens/Mission';
 import { MissionIcon } from '../ui/icons/Mission';
 import { ProgressIcon } from '../ui/icons/Progress';
 import { ScoreCardIcon } from '../ui/icons/ScoreCard';
@@ -31,11 +32,12 @@ export function BottomTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarLabelPosition: 'below-icon',
       }}
     >
       <Tab.Screen
         name="Mission"
-        component={Mission}
+        component={MissionScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <MissionIcon size={size} color={color} testID="tabBar" />
