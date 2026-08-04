@@ -14,6 +14,7 @@ import { NewAppScreen } from '@react-native/new-app-screen';
 
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ThemeProvider } from './contexts/themeContext';
 import { DrawerNavigation } from './navigator/mainNavigator';
 
 function App() {
@@ -22,7 +23,9 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <DrawerNavigation />
+      <ThemeProvider>
+        <DrawerNavigation />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

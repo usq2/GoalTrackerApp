@@ -2,6 +2,8 @@ import { Text, View } from 'react-native';
 
 import { createDrawerNavigator, createDrawerScreen } from '@react-navigation/drawer';
 
+import { MissionScreen } from '../screens/Mission';
+
 import { BottomTabs } from './bottom';
 
 function BottomTabsWrapper({ children }: { children: React.ReactNode }) {
@@ -10,13 +12,6 @@ function BottomTabsWrapper({ children }: { children: React.ReactNode }) {
       {children}
       <BottomTabs />
     </View>
-  );
-}
-function Mission() {
-  return (
-    <>
-      <Text> Mission </Text>
-    </>
   );
 }
 
@@ -37,17 +32,10 @@ export const DrawerNavigator = createDrawerNavigator({
     drawerPosition: 'left',
   },
   screens: {
-    MainTabs: createDrawerScreen({
-      screen: BottomTabs,
-      options: {
-        drawerLabel: 'Mission',
-        headerShown: true,
-      },
-    }),
     Plan: createDrawerScreen({
       screen: () => (
         <BottomTabsWrapper>
-          <Mission />
+          <MissionScreen />
         </BottomTabsWrapper>
       ),
     }),
@@ -68,7 +56,7 @@ export const DrawerNavigator = createDrawerNavigator({
     TopicsBreakdown: createDrawerScreen({
       screen: () => (
         <BottomTabsWrapper>
-          <Mission />
+          <MissionScreen />
         </BottomTabsWrapper>
       ),
     }),
