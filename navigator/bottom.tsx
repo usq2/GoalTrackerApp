@@ -24,6 +24,9 @@ function Weekly() {
 }
 
 const BottomTabs = createBottomTabNavigator({
+  screenOptions: {
+    headerShown: false,
+  },
   screens: {
     Mission: createBottomTabScreen({
       screen: Mission,

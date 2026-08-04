@@ -1,7 +1,7 @@
 import { createStaticNavigation } from '@react-navigation/native';
 
-import { BottomTabs } from './bottom';
+import { DrawerNavigator } from './drawer';
 
-const Navigation = createStaticNavigation(BottomTabs);
+const DrawerNavigation = createStaticNavigation(DrawerNavigator);
 
-export { Navigation };
+export { DrawerNavigation };

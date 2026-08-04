@@ -5,13 +5,16 @@
  * @format
  */
 
+import 'react-native-reanimated';
+import 'react-native-gesture-handler';
+
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 
 import { NewAppScreen } from '@react-native/new-app-screen';
 
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Navigation } from './navigator/mainNavigator';
+import { DrawerNavigation } from './navigator/mainNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,7 +22,7 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Navigation />
+      <DrawerNavigation />
     </SafeAreaProvider>
   );
 }
