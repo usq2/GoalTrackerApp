@@ -1,11 +1,23 @@
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { createDrawerNavigator, createDrawerScreen } from '@react-navigation/drawer';
 
 import { BottomTabs } from './bottom';
 
+function BottomTabsWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <View style={{ flex: 1 }}>
+      {children}
+      <BottomTabs />
+    </View>
+  );
+}
 function Mission() {
-  return <Text> Mission </Text>;
+  return (
+    <>
+      <Text> Mission </Text>
+    </>
+  );
 }
 
 function Timetable() {
@@ -32,11 +44,47 @@ export const DrawerNavigator = createDrawerNavigator({
         headerShown: true,
       },
     }),
-    Plan: createDrawerScreen({ screen: Mission }),
-    Routine: createDrawerScreen({ screen: Timetable }),
-    DailyStudyPlan: createDrawerScreen({ screen: Mission }),
-    TopicsBreakdown: createDrawerScreen({ screen: ScoreCard }),
-    Monthly: createDrawerScreen({ screen: Weekly }),
-    Analytics: createDrawerScreen({ screen: Mission }),
+    Plan: createDrawerScreen({
+      screen: () => (
+        <BottomTabsWrapper>
+          <Mission />
+        </BottomTabsWrapper>
+      ),
+    }),
+    Routine: createDrawerScreen({
+      screen: () => (
+        <BottomTabsWrapper>
+          <Timetable />
+        </BottomTabsWrapper>
+      ),
+    }),
+    DailyStudyPlan: createDrawerScreen({
+      screen: () => (
+        <BottomTabsWrapper>
+          <ScoreCard />
+        </BottomTabsWrapper>
+      ),
+    }),
+    TopicsBreakdown: createDrawerScreen({
+      screen: () => (
+        <BottomTabsWrapper>
+          <Mission />
+        </BottomTabsWrapper>
+      ),
+    }),
+    Monthly: createDrawerScreen({
+      screen: () => (
+        <BottomTabsWrapper>
+          <Weekly />
+        </BottomTabsWrapper>
+      ),
+    }),
+    Analytics: createDrawerScreen({
+      screen: () => (
+        <BottomTabsWrapper>
+          <Weekly />
+        </BottomTabsWrapper>
+      ),
+    }),
   },
 });
