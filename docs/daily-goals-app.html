@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Goals App - UI Prototype</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Primary Colors */
+            --primary-blue: #378ADD;
+            --primary-teal: #1D9E75;
+            --primary-orange: #D85A30;
+            --primary-amber: #BA7517;
+            --primary-purple: #534AB7;
+            --primary-coral: #D97757;
+            --primary-pink: #D4537E;
+            --primary-green: #639922;
+
+            /* Neutral Colors */
+            --neutral-900: #0B0B0B;
+            --neutral-800: #2C2C2A;
+            --neutral-700: #444441;
+            --neutral-600: #5F5E5A;
+            --neutral-500: #888780;
+            --neutral-400: #B4B2A9;
+            --neutral-300: #D3D1C7;
+            --neutral-200: #E8E6DF;
+            --neutral-100: #F1EFE8;
+            --neutral-50: #F9F8F5;
+            --white: #FFFFFF;
+
+            /* Surface Layers */
+            --surface-0: #F9F8F5;
+            --surface-1: #FFFFFF;
+            --surface-2: #F1EFE8;
+            --surface-3: #E8E6DF;
+
+            /* Text Colors */
+            --text-primary: #0B0B0B;
+            --text-secondary: #5F5E5A;
+            --text-muted: #888780;
+            --text-accent: #378ADD;
+
+            /* Semantic Colors */
+            --success-color: #639922;
+            --warning-color: #BA7517;
+            --danger-color: #C81B14;
+
+            /* Borders */
+            --border-color: #D3D1C7;
+            --border-strong: #B4B2A9;
+
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 12px;
+            --space-lg: 16px;
+            --space-xl: 24px;
+            --space-2xl: 32px;
+
+            /* Typography */
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --font-display: 'Segoe UI', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', monospace;
+
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            --radius-pill: 20px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: var(--font-sans);
+            background: var(--surface-0);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        /* DRAWER STYLES */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .side-drawer {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--surface-1);
+            border-right: 0.5px solid var(--border-color);
+            z-index: 50;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-drawer.active {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            padding: var(--space-lg);
+            border-bottom: 0.5px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .drawer-header-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: var(--space-sm);
+            margin: -4px -4px -4px auto;
+        }
+
+        .drawer-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-lg) 0;
+        }
+
+        .drawer-section {
+            padding: var(--space-lg);
+            border-bottom: 0.5px solid var(--border-color);
+        }
+
+        .drawer-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-md);
+        }
+
+        .drawer-item {
+            padding: var(--space-md) var(--space-md);
+            margin-bottom: var(--space-sm);
+            background: var(--surface-2);
+            border-radius: var(--radius-md);
+            border: 0.5px solid var(--border-color);
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            font-weight: 400;
+        }
+
+        .drawer-item:hover {
+            background: var(--surface-3);
+            border-color: var(--border-strong);
+        }
+
+        .drawer-item:active {
+            transform: scale(0.98);
+        }
+
+        /* APP LAYOUT */
+        .app-container {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--surface-1);
+            border-bottom: 0.5px solid var(--border-color);
+            flex-shrink: 0;
+            gap: var(--space-md);
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: var(--space-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -4px;
+            transition: color 0.2s;
+        }
+
+        .menu-btn:hover {
+            color: var(--text-accent);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .header-spacer {
+            width: 36px;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* QUESTIONS BANNER */
+        .questions-banner {
+            background: linear-gradient(135deg, rgba(55, 138, 221, 0.1), transparent);
+            border: 1px solid rgba(55, 138, 221, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .questions-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .question-item {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: var(--space-xs) 0;
+            line-height: 1.5;
+        }
+
+        /* MISSION TAB */
+        .mission-headline {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin: var(--space-xl) 0 var(--space-md);
+        }
+
+        .mission-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .mission-details {
+            background: var(--surface-2);
+            border: 0.5px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* TIMETABLE TAB */
+        .date-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .time-block {
+            background: var(--surface-2);
+            border: 0.5px solid var(--border-color);
+            border-left: 4px solid var(--primary-blue);
+            border-radius: var(--radius-sm);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            transition: all 0.2s ease;
+        }
+
+        .time-block:hover {
+            background: var(--surface-3);
+            border-color: var(--border-strong);
+        }
+
+        .time-block.color-1 { border-left-color: #378ADD; }
+        .time-block.color-2 { border-left-color: #639922; }
+        .time-block.color-3 { border-left-color: #D85A30; }
+        .time-block.color-4 { border-left-color: #1D9E75; }
+        .time-block.color-5 { border-left-color: #BA7517; }
+
+        .time-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-xs);
+        }
+
+        .time-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: var(--space-xs) 0;
+        }
+
+        .time-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* SCORECARD TAB */
+        .section-header {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: var(--space-xl) 0 var(--space-md);
+        }
+
+        .section-header:first-child {
+            margin-top: 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-sm);
+            background: var(--surface-2);
+            border-radius: var(--radius-md);
+            border: 0.5px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .checkbox-item:hover {
+            background: var(--surface-3);
+            border-color: var(--border-strong);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--primary-blue);
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label {
+            flex: 1;
+        }
+
+        .checkbox-label-main {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .checkbox-label-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* WEEKLY TAB */
+        .bullet-point {
+            display: flex;
+            gap: var(--space-md);
+            padding: var(--space-sm) 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .bullet-point::before {
+            content: "•";
+            color: var(--text-muted);
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        /* BOTTOM NAVIGATION */
+        .bottom-nav {
+            display: flex;
+            border-top: 0.5px solid var(--border-color);
+            background: var(--surface-1);
+            height: 70px;
+            flex-shrink: 0;
+            gap: 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 12px;
+            gap: var(--space-xs);
+            transition: all 0.2s ease;
+            padding: var(--space-sm);
+            margin: -4px;
+            border-radius: var(--radius-md);
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: var(--surface-2);
+        }
+
+        .nav-item.active {
+            color: var(--text-accent);
+            font-weight: 500;
+        }
+
+        .nav-item.active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 2px;
+            background: var(--text-accent);
+            border-radius: 1px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-strong);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neutral-600);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            .mission-headline {
+                font-size: 36px;
+            }
+
+            .drawer-header {
+                padding: var(--space-md);
+            }
+
+            .side-drawer {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="drawer-overlay" id="overlay"></div>
+
+        <aside class="side-drawer" id="drawer">
+            <div class="drawer-header">
+                <div class="drawer-header-title">Menu</div>
+                <button class="close-btn" id="closeDrawer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="drawer-content">
+                <div class="drawer-section">
+                    <div class="drawer-section-title">Training</div>
+                    <div class="drawer-item">
+                        <i class="fas fa-dumbbell" style="margin-right: 8px;"></i>
+                        Workout Plan
+                    </div>
+                    <div class="drawer-item">
+                        <i class="fas fa-chart-line" style="margin-right: 8px;"></i>
+                        Routine & History
+                    </div>
+                </div>
+
+                <div class="drawer-section">
+                    <div class="drawer-section-title">Learning</div>
+                    <div class="drawer-item">
+                        <i class="fas fa-book" style="margin-right: 8px;"></i>
+                        Daily Study Plan
+                    </div>
+                    <div class="drawer-item">
+                        <i class="fas fa-tags" style="margin-right: 8px;"></i>
+                        Topics Breakdown
+                    </div>
+                </div>
+
+                <div class="drawer-section">
+                    <div class="drawer-section-title">Progress</div>
+                    <div class="drawer-item">
+                        <i class="fas fa-target" style="margin-right: 8px;"></i>
+                        Monthly Success
+                    </div>
+                    <div class="drawer-item">
+                        <i class="fas fa-chart-bar" style="margin-right: 8px;"></i>
+                        Analytics
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="app-container">
+            <header class="header">
+                <button class="menu-btn" id="openDrawer">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title" id="pageTitle">Mission</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <div class="content-area">
+                <!-- MISSION TAB -->
+                <div class="tab-content active" id="mission-tab">
+                    <div class="questions-banner">
+                        <div class="questions-title">Today's Questions</div>
+                        <div class="question-item">• What is one thing I want to accomplish today?</div>
+                        <div class="question-item">• What obstacles might I face?</div>
+                    </div>
+
+                    <div class="mission-headline">Today, I'll build something meaningful</div>
+                    <div class="mission-meta">Set at 6:00 AM · Updated 2 minutes ago</div>
+                    <div class="mission-details">
+                        This is your personal mission statement that guides your day. Revisit it whenever you need clarity on your priorities. You've aligned 3 strategic goals with this mission.
+                    </div>
+                </div>
+
+                <!-- TIMETABLE TAB -->
+                <div class="tab-content" id="timetable-tab">
+                    <div class="questions-banner">
+                        <div class="questions-title">Today's Questions</div>
+                        <div class="question-item">• Am I on schedule?</div>
+                        <div class="question-item">• What needs my focus right now?</div>
+                    </div>
+
+                    <div class="date-label">Friday, January 17</div>
+
+                    <div class="time-block color-1">
+                        <div class="time-label">6:00 AM</div>
+                        <div class="time-title">Morning Meditation</div>
+                        <div class="time-desc">30 min · Gym</div>
+                    </div>
+
+                    <div class="time-block color-2">
+                        <div class="time-label">7:00 AM</div>
+                        <div class="time-title">Breakfast & Planning</div>
+                        <div class="time-desc">45 min · Kitchen</div>
+                    </div>
+
+                    <div class="time-block color-3">
+                        <div class="time-label">8:00 AM</div>
+                        <div class="time-title">Deep Work Session</div>
+                        <div class="time-desc">2 hrs · Office</div>
+                    </div>
+
+                    <div class="time-block color-4">
+                        <div class="time-label">10:30 AM</div>
+                        <div class="time-title">Team Standup</div>
+                        <div class="time-desc">30 min · Meeting Room</div>
+                    </div>
+
+                    <div class="time-block color-5">
+                        <div class="time-label">11:15 AM</div>
+                        <div class="time-title">Client Call</div>
+                        <div class="time-desc">1 hr · Virtual</div>
+                    </div>
+
+                    <div class="time-block color-1">
+                        <div class="time-label">1:00 PM</div>
+                        <div class="time-title">Lunch Break</div>
+                        <div class="time-desc">1 hr</div>
+                    </div>
+
+                    <div class="time-block color-2">
+                        <div class="time-label">2:00 PM</div>
+                        <div class="time-title">Review & Feedback</div>
+                        <div class="time-desc">1.5 hrs · Office</div>
+                    </div>
+                </div>
+
+                <!-- DAILY SCORECARD TAB -->
+                <div class="tab-content" id="scorecard-tab">
+                    <div class="questions-banner">
+                        <div class="questions-title">Today's Questions</div>
+                        <div class="question-item">• Am I staying true to my goals?</div>
+                        <div class="question-item">• What can I improve tomorrow?</div>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-2xl);">
+                        <div class="section-header">Health</div>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <div class="checkbox-label">
+                                <div class="checkbox-label-main">Morning exercise</div>
+                                <div class="checkbox-label-sub">30+ minutes</div>
+                            </div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <div class="checkbox-label">
+                                <div class="checkbox-label-main">Drink 8 glasses of water</div>
+                                <div class="checkbox-label-sub">Throughout the day</div>
+                            </div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <div class="checkbox-label">
+                                <div class="checkbox-label-main">Evening stretching</div>
+                                <div class="checkbox-label-sub">15 minutes</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div>
+                        <div class="section-header">Productivity</div>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <div class="checkbox-label">
+                                <div class="checkbox-label-main">Complete priority tasks</div>
+                                <div class="checkbox-label-sub">Top 3 items</div>
+                            </div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <div class="checkbox-label">
+                                <div class="checkbox-label-main">No distractions during work</div>
+                                <div class="checkbox-label-sub">Phone on silent</div>
+                            </div>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <div class="checkbox-label">
+                                <div class="checkbox-label-main">Review daily goals</div>
+                                <div class="checkbox-label-sub">Evening reflection</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- WEEKLY REPORT TAB -->
+                <div class="tab-content" id="weekly-tab">
+                    <div class="questions-banner">
+                        <div class="questions-title">Weekly Reflection</div>
+                        <div class="question-item">• What did I learn this week?</div>
+                        <div class="question-item">• How can I build on this momentum?</div>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-2xl);">
+                        <div class="section-header">Accomplishments</div>
+                        <div class="bullet-point">Completed Q1 strategic planning</div>
+                        <div class="bullet-point">Led 3 successful client presentations</div>
+                        <div class="bullet-point">Mentored 2 junior team members</div>
+                        <div class="bullet-point">Finished learning module on system design</div>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-2xl);">
+                        <div class="section-header">Challenges</div>
+                        <div class="bullet-point">Struggled with time management on Tuesday</div>
+                        <div class="bullet-point">Less sleep than planned on Wed/Thu</div>
+                        <div class="bullet-point">One project deadline slipped by 2 days</div>
+                    </div>
+
+                    <div>
+                        <div class="section-header">Next Week Focus</div>
+                        <div class="bullet-point">Implement feedback from reviews</div>
+                        <div class="bullet-point">Start new project initiative</div>
+                        <div class="bullet-point">Schedule personal time for creative work</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <button class="nav-item active" onclick="switchTab('mission', this)">
+                    <i class="nav-icon fas fa-bullseye"></i>
+                    <span>Mission</span>
+                </button>
+                <button class="nav-item" onclick="switchTab('timetable', this)">
+                    <i class="nav-icon fas fa-clock"></i>
+                    <span>Timetable</span>
+                </button>
+                <button class="nav-item" onclick="switchTab('scorecard', this)">
+                    <i class="nav-icon fas fa-list-check"></i>
+                    <span>Scorecard</span>
+                </button>
+                <button class="nav-item" onclick="switchTab('weekly', this)">
+                    <i class="nav-icon fas fa-calendar"></i>
+                    <span>Weekly</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('overlay');
+        const openBtn = document.getElementById('openDrawer');
+        const closeBtn = document.getElementById('closeDrawer');
+        const pageTitle = document.getElementById('pageTitle');
+
+        const tabNames = {
+            mission: 'Mission',
+            timetable: 'Timetable',
+            scorecard: 'Daily Scorecard',
+            weekly: 'Weekly Report'
+        };
+
+        function openDrawer() {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        openBtn.addEventListener('click', openDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        function switchTab(tabName, button) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabName + '-tab').classList.add('active');
+            button.classList.add('active');
+            pageTitle.textContent = tabNames[tabName];
+
+            closeDrawer();
+        }
+
+        // Close drawer when clicking on drawer items
+        document.querySelectorAll('.drawer-item').forEach(item => {
+            item.addEventListener('click', closeDrawer);
+        });
+    </script>
+</body>
+</html>
