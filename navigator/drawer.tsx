@@ -1,19 +1,8 @@
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
-import { createDrawerNavigator, createDrawerScreen } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { MissionScreen } from '../screens/Mission';
-
-import { BottomTabs } from './bottom';
-
-function BottomTabsWrapper({ children }: { children: React.ReactNode }) {
-  return (
-    <View style={{ flex: 1 }}>
-      {children}
-      <BottomTabs />
-    </View>
-  );
-}
 
 function Timetable() {
   return <Text> Timetable </Text>;
@@ -27,52 +16,85 @@ function Weekly() {
   return <Text> Weekly </Text>;
 }
 
-export const DrawerNavigator = createDrawerNavigator({
-  screenOptions: {
-    drawerPosition: 'left',
-  },
-  screens: {
-    Plan: createDrawerScreen({
-      screen: () => (
-        <BottomTabsWrapper>
-          <MissionScreen />
-        </BottomTabsWrapper>
-      ),
-    }),
-    Routine: createDrawerScreen({
-      screen: () => (
-        <BottomTabsWrapper>
-          <Timetable />
-        </BottomTabsWrapper>
-      ),
-    }),
-    DailyStudyPlan: createDrawerScreen({
-      screen: () => (
-        <BottomTabsWrapper>
-          <ScoreCard />
-        </BottomTabsWrapper>
-      ),
-    }),
-    TopicsBreakdown: createDrawerScreen({
-      screen: () => (
-        <BottomTabsWrapper>
-          <MissionScreen />
-        </BottomTabsWrapper>
-      ),
-    }),
-    Monthly: createDrawerScreen({
-      screen: () => (
-        <BottomTabsWrapper>
-          <Weekly />
-        </BottomTabsWrapper>
-      ),
-    }),
-    Analytics: createDrawerScreen({
-      screen: () => (
-        <BottomTabsWrapper>
-          <Weekly />
-        </BottomTabsWrapper>
-      ),
-    }),
-  },
-});
+const Drawer = createDrawerNavigator();
+
+export const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerPosition: 'left',
+      }}
+    >
+      <Drawer.Screen
+        name="Plan"
+        component={MissionScreen}
+        options={{
+          drawerLabel: 'Plan',
+        }}
+      />
+      <Drawer.Screen
+        name="Routine"
+        component={Timetable}
+        options={{
+          drawerLabel: 'Routine',
+        }}
+      />
+      <Drawer.Screen
+        name="DailyStudyPlan"
+        component={MissionScreen}
+        options={{
+          drawerLabel: 'Daily Study Plan',
+        }}
+      />
+      <Drawer.Screen
+        name="TopicsBreakdown"
+        component={ScoreCard}
+        options={{
+          drawerLabel: 'Topics Breakdown',
+        }}
+      />
+      <Drawer.Screen
+        name="Monthly"
+        component={Weekly}
+        options={{
+          drawerLabel: 'Monthly',
+        }}
+      />
+      <Drawer.Screen
+        name="Analytics"
+        component={MissionScreen}
+        options={{
+          drawerLabel: 'Analytics',
+        }}
+      />
+      <Drawer.Screen
+        name="Mission"
+        component={MissionScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="Timetable"
+        component={ScoreCard}
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="Scorecard"
+        component={Weekly}
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="Weekly"
+        component={MissionScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+    </Drawer.Navigator>
+  );
+};
