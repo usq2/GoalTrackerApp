@@ -1,27 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { useEffect } from 'react';
 
-import 'react-native-reanimated';
-import 'react-native-gesture-handler';
+import { StatusBar, useColorScheme } from 'react-native';
 
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { NavigationContainer } from '@react-navigation/native';
 
+import { seedCache } from './cache/cache.utils';
 import { ThemeProvider } from './contexts/themeContext';
 import { RootNavigator } from './navigator/mainNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-
+  useEffect(() => {
+    seedCache();
+  }, []);
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -33,21 +26,5 @@ function App() {
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen templateFileName="App.tsx" safeAreaInsets={safeAreaInsets} />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;

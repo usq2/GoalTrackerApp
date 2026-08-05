@@ -2,6 +2,7 @@ import { Text } from 'react-native';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import { useTheme } from '../hooks/useTheme';
 import { MissionScreen } from '../screens/Mission';
 
 function Timetable() {
@@ -19,10 +20,22 @@ function Weekly() {
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
+  const { colors } = useTheme();
   return (
     <Drawer.Navigator
+      initialRouteName="Mission"
       screenOptions={{
         drawerPosition: 'left',
+        headerStyle: {
+          backgroundColor: colors.on_background,
+        },
+        headerTintColor: colors.inverse_primary,
+        headerTitleStyle: {
+          textTransform: 'uppercase',
+          fontWeight: '900',
+          flex: 1,
+          textAlignVertical: 'center',
+        },
       }}
     >
       <Drawer.Screen

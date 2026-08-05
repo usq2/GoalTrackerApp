@@ -1,8 +1,8 @@
 export const spacing = {
-  'stack-lg': '32px',
-  'stack-sm': '8px',
-  'base-unit': '4px',
-  'stack-md': '16px',
-  'container-margin': '20px',
-  gutter: '16px',
+  stack_lg: 32,
+  stack_sm: 8,
+  base_unit: 4,
+  stack_md: 16,
+  container_margin: 20,
+  gutter: 16,
 };

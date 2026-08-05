@@ -2,11 +2,12 @@ import { Cache } from './cache.service';
 import { seed } from './seed';
 
 export const seedCache = () => {
-  // check if cache already seeded
-  const cacheSeeded = Cache.healthCheck();
-  if (cacheSeeded) {
+  // Check if cache key exists rather than checking storage instance existence
+  if (Cache.isSeeded()) {
+    console.log('Cache already seeded.');
     return;
   }
+
   try {
     Cache.setGoals(JSON.stringify(seed.mission));
     Cache.setTimetable(JSON.stringify(seed.weekday_timetable));
@@ -15,7 +16,11 @@ export const seedCache = () => {
     Cache.setMonthlySuccessCriteria(JSON.stringify(seed.monthly_success_criteria));
     Cache.setDailyRules(JSON.stringify(seed.rule_for_the_month));
     Cache.setWeeklyCheckIn(JSON.stringify(seed.weekly_checkin));
-  } catch (cache_error) {
-    return new Error('Failed to populate cache');
+
+    // Mark cache as successfully seeded
+    Cache.markSeeded();
+    console.log('Cache seeded successfully');
+  } catch (error) {
+    console.error('Failed to populate cache:', error);
   }
 };

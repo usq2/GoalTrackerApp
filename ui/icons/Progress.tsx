@@ -7,10 +7,10 @@ export const ProgressIcon = ({ focused, size, testID }: IconProps) => {
   const { colors } = useTheme();
   return (
     <Ionicons
-      name={focused ? 'trending-up-sharp' : 'trending-up'}
+      name={focused ? 'trending-up' : 'trending-up-outline'}
       color={focused ? colors.primary : colors.inverse_primary}
       size={size}
-      testID={`${testID}-MissionIcon`}
+      testID={`${testID}-ProgressIcon`}
     />
   );
 };
