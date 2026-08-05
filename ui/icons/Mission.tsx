@@ -7,7 +7,7 @@ export const MissionIcon = ({ focused, size, testID }: IconProps) => {
   const { colors } = useTheme();
   return (
     <Ionicons
-      name={focused ? 'rocket-sharp' : 'rocket'}
+      name={focused ? 'rocket' : 'rocket-outline'}
       color={focused ? colors.primary : colors.inverse_primary}
       size={size}
       testID={`${testID}-MissionIcon`}

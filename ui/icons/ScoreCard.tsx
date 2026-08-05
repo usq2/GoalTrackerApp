@@ -7,10 +7,10 @@ export const ScoreCardIcon = ({ focused, size, testID }: IconProps) => {
   const { colors } = useTheme();
   return (
     <Ionicons
-      name={focused ? 'trophy-sharp' : 'trophy'}
+      name={focused ? 'trophy' : 'trophy-outline'}
       color={focused ? colors.primary : colors.inverse_primary}
       size={size}
-      testID={`${testID}-MissionIcon`}
+      testID={`${testID}-ScoreCardIcon`}
     />
   );
 };

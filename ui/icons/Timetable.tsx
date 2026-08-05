@@ -7,10 +7,10 @@ export const TimetableIcon = ({ focused, size, testID }: IconProps) => {
   const { colors } = useTheme();
   return (
     <Ionicons
-      name={focused ? 'calendar-sharp' : 'calendar'}
+      name={focused ? 'calendar' : 'calendar-outline'}
       color={focused ? colors.primary : colors.inverse_primary}
       size={size}
-      testID={`${testID}-MissionIcon`}
+      testID={`${testID}-TimetableIcon`}
     />
   );
 };

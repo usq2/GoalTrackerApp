@@ -1,37 +1,59 @@
 import { View, Text, StyleSheet } from 'react-native';
 
+import { Cache } from '../cache/cache.service';
 import { ColorPallete } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
+import { GoalsCard } from '../ui/components/GoalsCard';
+import { daysLeftInCurrMonth } from '../utils/date';
 
+const Goals = () => {
+  const storedGoals = Cache.getGoals();
+  if (storedGoals) {
+    const parsedStoredGoals = JSON.parse(storedGoals);
+    return parsedStoredGoals.priorities.map((text: string, index: number) => {
+      return <GoalsCard text={text} index={index} key={index} />;
+    });
+  } else {
+    return <></>;
+  }
+};
 export const MissionScreen = () => {
   const { colors } = useTheme();
   const styles = applyStyles(colors);
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>For the next 30 days, I have only two priorities:</Text>
-      <Text style={styles.goal}>
-        1. Reach 78 kg (long-term goal) by consistently losing weight.
-      </Text>
-      <Text style={styles.goal}>
-        2. Become an exceptional software developer through deliberate practice.
-      </Text>
-    </View>
+    <>
+      <View style={styles.headingContainer}>
+        <Text style={styles.heading}>
+          For the next
+          <Text style={[styles.heading, styles.emphasize]}> {daysLeftInCurrMonth()} days</Text>
+        </Text>
+      </View>
+      <View style={styles.bodyContainer}>
+        <Text style={[styles.heading, { paddingStart: 10, marginBottom: 10 }]}>Monthly Goals</Text>
+        <Goals />
+      </View>
+    </>
   );
 };
 
 const applyStyles = (colors: ColorPallete) =>
   StyleSheet.create({
-    container: {
+    headingContainer: {
       flex: 1,
       alignItems: 'center',
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+    },
+    bodyContainer: {
+      flex: 2,
       backgroundColor: colors.background,
       gap: 10,
     },
     heading: {
-      fontSize: 30,
-      fontWeight: '700',
-      margin: 10,
-      color: colors.background,
+      fontSize: 24,
+      fontFamily: 'roboto',
+      fontWeight: 'bold',
+      color: colors.surface_bright,
       letterSpacing: 3,
     },
     goal: {
@@ -39,5 +61,10 @@ const applyStyles = (colors: ColorPallete) =>
       fontWeight: '700',
       marginHorizontal: 10,
       color: colors.tertiary,
+    },
+    emphasize: {
+      fontSize: 30,
+      color: colors.inverse_primary,
+      fontFamily: 'sans-serif',
     },
   });
