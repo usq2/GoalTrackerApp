@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 import { useColorScheme } from 'react-native';
 
 import { light } from '../design_tokens/colors';
+import { spacing } from '../design_tokens/spacing';
 
 import { ThemeContextType, ThemeMode } from './types';
 
@@ -28,6 +29,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         theme: activeTheme,
         themeMode,
         colors,
+        spacing,
         setThemeMode,
         toggleTheme,
       }}
