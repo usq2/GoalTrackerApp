@@ -1,9 +1,16 @@
 import Ionicons from '@react-native-vector-icons/ionicons';
 
+import { useTheme } from '../../hooks/useTheme';
 import { IconProps } from '../types/Icon.types';
 
-export const TimetableIcon = ({ color, size, testID }: IconProps) => {
+export const TimetableIcon = ({ focused, size, testID }: IconProps) => {
+  const { colors } = useTheme();
   return (
-    <Ionicons name="hourglass-sharp" color={color} size={size} testID={`${testID}-TimetableIcon`} />
+    <Ionicons
+      name={focused ? 'calendar-sharp' : 'calendar'}
+      color={focused ? colors.primary : colors.inverse_primary}
+      size={size}
+      testID={`${testID}-MissionIcon`}
+    />
   );
 };

@@ -14,18 +14,22 @@ import { NewAppScreen } from '@react-native/new-app-screen';
 
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { NavigationContainer } from '@react-navigation/native';
+
 import { ThemeProvider } from './contexts/themeContext';
-import { DrawerNavigation } from './navigator/mainNavigator';
+import { RootNavigator } from './navigator/mainNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ThemeProvider>
-        <DrawerNavigation />
-      </ThemeProvider>
+      <NavigationContainer>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ThemeProvider>
+          <RootNavigator />
+        </ThemeProvider>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }

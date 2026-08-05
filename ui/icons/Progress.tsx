@@ -1,14 +1,16 @@
 import Ionicons from '@react-native-vector-icons/ionicons';
 
+import { useTheme } from '../../hooks/useTheme';
 import { IconProps } from '../types/Icon.types';
 
-export const ProgressIcon = ({ color, size, testID }: IconProps) => {
+export const ProgressIcon = ({ focused, size, testID }: IconProps) => {
+  const { colors } = useTheme();
   return (
     <Ionicons
-      name="trending-up-sharp"
-      color={color}
+      name={focused ? 'trending-up-sharp' : 'trending-up'}
+      color={focused ? colors.primary : colors.inverse_primary}
       size={size}
-      testID={`${testID}-ProgressIcon`}
+      testID={`${testID}-MissionIcon`}
     />
   );
 };
