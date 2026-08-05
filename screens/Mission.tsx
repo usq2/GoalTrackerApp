@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { ColorPallete } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
@@ -24,20 +24,20 @@ const applyStyles = (colors: ColorPallete) =>
     container: {
       flex: 1,
       alignItems: 'center',
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
       gap: 10,
     },
     heading: {
       fontSize: 30,
       fontWeight: '700',
       margin: 10,
-      color: colors.text,
+      color: colors.background,
       letterSpacing: 3,
     },
     goal: {
       fontSize: 24,
       fontWeight: '700',
       marginHorizontal: 10,
-      color: colors.text,
+      color: colors.tertiary,
     },
   });

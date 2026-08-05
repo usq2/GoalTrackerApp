@@ -1,9 +1,16 @@
 import Ionicons from '@react-native-vector-icons/ionicons';
 
+import { useTheme } from '../../hooks/useTheme';
 import { IconProps } from '../types/Icon.types';
 
-export const MissionIcon = ({ color, size, testID }: IconProps) => {
+export const MissionIcon = ({ focused, size, testID }: IconProps) => {
+  const { colors } = useTheme();
   return (
-    <Ionicons name="bonfire-sharp" color={color} size={size} testID={`${testID}-MissionIcon`} />
+    <Ionicons
+      name={focused ? 'rocket-sharp' : 'rocket'}
+      color={focused ? colors.primary : colors.inverse_primary}
+      size={size}
+      testID={`${testID}-MissionIcon`}
+    />
   );
 };
