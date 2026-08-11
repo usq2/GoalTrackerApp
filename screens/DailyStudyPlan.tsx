@@ -1,36 +1,36 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { Cache } from '../cache/cache.service';
 import { ColorPallete } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
-import { GoalsCard } from '../ui/components/GoalsCard';
+import { DSPCard } from '../ui/components/DSPCard';
 import { DailyQuestions } from '../ui/components/Questions';
-import { daysLeftInCurrMonth } from '../utils/date';
 
-const Goals = () => {
-  const storedGoals = Cache.getGoals();
-  if (storedGoals) {
-    return storedGoals.priorities.map((text: string, index: number) => {
-      return <GoalsCard text={text} index={index} key={index} />;
+const Schedule = () => {
+  const storedLearningPlan = Cache.getLearningPlan();
+  if (storedLearningPlan) {
+    return Object.entries(storedLearningPlan).map(entry => {
+      return <DSPCard day={entry[0]} activity={entry[1] as string | string[]} key={entry[0]} />;
     });
   } else {
     return <></>;
   }
 };
-export const MissionScreen = () => {
+export const DSPScreen = () => {
   const { colors } = useTheme();
   const styles = applyStyles(colors);
+
   return (
     <>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>
-          For the next
-          <Text style={[styles.heading, styles.emphasize]}> {daysLeftInCurrMonth()} days</Text>
-        </Text>
+        <Text style={styles.heading}>Daily Study Plan</Text>
+        <Text style={styles.emphasize}>{new Date().toDateString()}</Text>
+        <DailyQuestions />
       </View>
       <View style={styles.bodyContainer}>
-        <Text style={[styles.heading, styles.spacing]}>Monthly Goals</Text>
-        <Goals />
+        <ScrollView>
+          <Schedule />
+        </ScrollView>
       </View>
     </>
   );
@@ -40,12 +40,13 @@ const applyStyles = (colors: ColorPallete) =>
   StyleSheet.create({
     headingContainer: {
       flex: 1,
-      alignItems: 'center',
+      alignItems: 'flex-start',
       backgroundColor: colors.background,
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
+      padding: 10,
     },
     bodyContainer: {
-      flex: 2,
+      flex: 4,
       backgroundColor: colors.background,
       gap: 10,
     },
@@ -63,8 +64,8 @@ const applyStyles = (colors: ColorPallete) =>
       color: colors.tertiary,
     },
     emphasize: {
-      fontSize: 30,
-      color: colors.inverse_primary,
+      fontSize: 20,
+      color: colors.custom_blue,
       fontFamily: 'sans-serif',
     },
     spacing: { paddingStart: 10, marginBottom: 10 },

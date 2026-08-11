@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { ColorPallete, Spacing } from '../../contexts/types';
 import { useTheme } from '../../hooks/useTheme';
+import { BaseCard } from '../atoms/BaseCard';
 import { HealthIcon } from '../icons/Health';
 import { StudyIcon } from '../icons/Study';
 
@@ -9,13 +10,15 @@ export const GoalsCard = ({ index, text }: { index: number; text: string }) => {
   const { colors, spacing } = useTheme();
   const styles = applyStyles(colors, spacing, index);
   return (
-    <View style={styles.card}>
-      <View style={styles.logoContainer}>{determineIcon(text, colors, index)}</View>
-      <View style={styles.textContainer}>
-        <Text style={styles.heading}>{determineHeading(text)}</Text>
-        <Text style={styles.text}>{text}</Text>
-      </View>
-    </View>
+    <BaseCard
+      Logo={<View style={styles.logoContainer}>{determineIcon(text, colors, index)}</View>}
+      Heading={
+        <View style={styles.textContainer}>
+          <Text style={styles.heading}>{determineHeading(text)}</Text>
+          <Text style={styles.text}>{text}</Text>
+        </View>
+      }
+    />
   );
 };
 
@@ -50,15 +53,6 @@ const determineIcon = (text: string, colors: ColorPallete, index: number) => {
 };
 const applyStyles = (colors: ColorPallete, spacing: Spacing, index: number) => {
   return StyleSheet.create({
-    card: {
-      flexDirection: 'row',
-      marginHorizontal: 10,
-      backgroundColor: colors.background,
-      marginBottom: 15,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: colors.inverse_surface,
-      borderRadius: 5,
-    },
     logoContainer: {
       flex: 1,
       borderLeftWidth: 3,

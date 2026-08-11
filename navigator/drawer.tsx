@@ -3,15 +3,11 @@ import { Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { useTheme } from '../hooks/useTheme';
+import { DSPScreen } from '../screens/DailyStudyPlan';
 import { MissionScreen } from '../screens/Mission';
-
-function Timetable() {
-  return <Text> Timetable </Text>;
-}
-
-function ScoreCard() {
-  return <Text> ScoreCard </Text>;
-}
+import { ScoreCardScreen } from '../screens/ScoreCard';
+import { TimetableScreen } from '../screens/Timetable';
+import { WeeklyProgressScreen } from '../screens/WeeklyProgress';
 
 function Weekly() {
   return <Text> Weekly </Text>;
@@ -39,42 +35,21 @@ export const DrawerNavigator = () => {
       }}
     >
       <Drawer.Screen
-        name="Plan"
-        component={MissionScreen}
-        options={{
-          drawerLabel: 'Plan',
-        }}
-      />
-      <Drawer.Screen
-        name="Routine"
-        component={Timetable}
-        options={{
-          drawerLabel: 'Routine',
-        }}
-      />
-      <Drawer.Screen
-        name="DailyStudyPlan"
-        component={MissionScreen}
+        name="Daily Study Plan"
+        component={DSPScreen}
         options={{
           drawerLabel: 'Daily Study Plan',
         }}
       />
       <Drawer.Screen
-        name="TopicsBreakdown"
-        component={ScoreCard}
-        options={{
-          drawerLabel: 'Topics Breakdown',
-        }}
-      />
-      <Drawer.Screen
-        name="Monthly"
+        name="Monthly Progress"
         component={Weekly}
         options={{
           drawerLabel: 'Monthly',
         }}
       />
       <Drawer.Screen
-        name="Analytics"
+        name="Workout Plan"
         component={MissionScreen}
         options={{
           drawerLabel: 'Analytics',
@@ -89,21 +64,21 @@ export const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="Timetable"
-        component={ScoreCard}
+        component={TimetableScreen}
         options={{
           drawerItemStyle: { display: 'none' },
         }}
       />
       <Drawer.Screen
-        name="Scorecard"
-        component={Weekly}
+        name="Daily Tasks"
+        component={ScoreCardScreen}
         options={{
           drawerItemStyle: { display: 'none' },
         }}
       />
       <Drawer.Screen
-        name="Weekly"
-        component={MissionScreen}
+        name="Weekly Progress"
+        component={WeeklyProgressScreen}
         options={{
           drawerItemStyle: { display: 'none' },
         }}

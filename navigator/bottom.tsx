@@ -14,12 +14,12 @@ import { TimetableIcon } from '../ui/icons/Timetable';
 export function BottomTabBar() {
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const [currFocus, setCurrFocus] = useState('');
+  const [currFocus, setCurrFocus] = useState('Mission');
   const tabs = [
     { name: 'Mission', icon: MissionIcon, label: 'Mission' },
     { name: 'Timetable', icon: TimetableIcon, label: 'Timetable' },
-    { name: 'Scorecard', icon: ScoreCardIcon, label: 'Scorecard' },
-    { name: 'Weekly', icon: ProgressIcon, label: 'Weekly' },
+    { name: 'Daily Tasks', icon: ScoreCardIcon, label: 'Scorecard' },
+    { name: 'Weekly Progress', icon: ProgressIcon, label: 'Weekly' },
   ];
   const styles = applyStyles(colors);
   return (
