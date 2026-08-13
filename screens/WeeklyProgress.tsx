@@ -2,18 +2,15 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { LineChart, BarChart } from 'react-native-gifted-charts';
 
-import { Cache } from '../cache/cache.service';
 import { ColorPallete } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
+import { ProgressService } from '../service/ProgressMgr';
+import { WeightService } from '../service/WeightMgr';
 import { DailyQuestions } from '../ui/components/Questions';
 import { PrepBarChartData, PrepLineChartData } from '../utils/data';
 
-interface ScheduleItem {
-  time: string;
-  activity: string;
-}
 const Weight = () => {
-  const weights = Cache.getLast7Weight();
+  const weights = WeightService.getLast7Weight();
   const graphData = PrepLineChartData(weights);
   const { colors } = useTheme();
 
@@ -46,7 +43,7 @@ const Weight = () => {
 };
 
 const Scores = () => {
-  const scores = Cache.getLast7DailyProgress();
+  const scores = ProgressService.getLast7DailyProgress();
   const graphData = PrepBarChartData(scores);
   return (
     <>
