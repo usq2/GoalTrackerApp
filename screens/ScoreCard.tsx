@@ -88,6 +88,7 @@ export const ScoreCardScreen = () => {
           value={weight}
           onChangeText={handleWeight}
           placeholder="Enter today's weight..."
+          placeholderTextColor={colors.primary}
           keyboardType="numeric"
           key="weight"
         />
@@ -96,6 +97,7 @@ export const ScoreCardScreen = () => {
           value={calories}
           onChangeText={handleCalories}
           placeholder="Enter today's calories deficit..."
+          placeholderTextColor={colors.primary}
           keyboardType="numeric"
           key="calories"
         />
@@ -154,7 +156,7 @@ const applyStyles = (colors: ColorPallete, spacing: Spacing) =>
       padding: spacing.container_margin,
     },
     input: {
-      marginHorizontal: spacing.stack_sm,
+      margin: spacing.stack_sm,
       backgroundColor: colors.on_primary_container,
       color: colors.inverse_primary,
     },
