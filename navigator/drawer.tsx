@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { useTheme } from '../hooks/useTheme';
+import { AnalyticsScreen } from '../screens/AnalyticsScreen';
 import { DSPScreen } from '../screens/DailyStudyPlan';
 import { MissionScreen } from '../screens/Mission';
 import { ScoreCardScreen } from '../screens/ScoreCard';
@@ -49,8 +50,8 @@ export const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name="Workout Plan"
-        component={MissionScreen}
+        name="Analytics"
+        component={AnalyticsScreen}
         options={{
           drawerLabel: 'Analytics',
         }}

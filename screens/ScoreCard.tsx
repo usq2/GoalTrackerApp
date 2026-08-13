@@ -1,10 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
 
 import { Cache } from '../cache/cache.service';
 import { ColorPallete, Spacing } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
+import { CaloriesService } from '../service/CaloriesMgr';
+import { ProgressService } from '../service/ProgressMgr';
+import { WeightService } from '../service/WeightMgr';
 import { BaseCard } from '../ui/atoms/BaseCard';
 import { Checkbox } from '../ui/atoms/Checkbox';
 import { TargetIcon } from '../ui/icons/Target';
@@ -22,7 +25,7 @@ const CheckableCard = ({ label, value, onValueChange }: CheckboxProps) => {
         <Checkbox
           label={label}
           value={value}
-          onValueChange={value => onValueChange(value)}
+          onValueChange={val => onValueChange(val)}
           color={colors.primary}
         />
       }
@@ -46,23 +49,31 @@ export const ScoreCardScreen = () => {
   const { colors, spacing } = useTheme();
   const styles = applyStyles(colors, spacing);
   const [weight, setWeight] = useState<string>('');
+  const [calories, setCalories] = useState<string>('');
   const [goals, setGoals] = useState<Record<string, Record<string, boolean>>>(() => {
-    const todaysData = Cache.getTodaysProgress();
+    const todaysData = ProgressService.getTodaysProgress();
     if (todaysData) {
       return todaysData.report;
     }
-    const goals = Cache.getDailyGoals();
-    if (!goals) return {};
-    return flattenObjContainsArray(goals);
+    const cachedGoals = Cache.getDailyGoals();
+    if (!cachedGoals) return {};
+    return flattenObjContainsArray(cachedGoals);
   });
 
   const [score, setScore] = useState<string>(() => getScoreFromGoals(goals));
 
   function handleWeight(text: string) {
     setWeight(text);
-    Cache.setDailyWeight(
+    WeightService.setDailyWeight(
       new Date().toDateString(),
       JSON.stringify({ date: new Date().toDateString(), weight: text }),
+    );
+  }
+  function handleCalories(text: string) {
+    setCalories(text);
+    CaloriesService.setDailyCaloriesDeficit(
+      new Date().toDateString(),
+      JSON.stringify({ date: new Date().toDateString(), caloriesDeficit: text }),
     );
   }
   return (
@@ -78,6 +89,15 @@ export const ScoreCardScreen = () => {
           onChangeText={handleWeight}
           placeholder="Enter today's weight..."
           keyboardType="numeric"
+          key="weight"
+        />
+        <TextInput
+          style={styles.input}
+          value={calories}
+          onChangeText={handleCalories}
+          placeholder="Enter today's calories deficit..."
+          keyboardType="numeric"
+          key="calories"
         />
         {Object.keys(goals).map((dailyGoals, index) => {
           return (
@@ -85,7 +105,7 @@ export const ScoreCardScreen = () => {
               <Text key={index} style={styles.checkHeader}>
                 {dailyGoals}
               </Text>
-              {Object.keys(goals[dailyGoals]).map((label, index) => {
+              {Object.keys(goals[dailyGoals]).map(label => {
                 function onCheck(value: boolean) {
                   setGoals(prev => {
                     prev[dailyGoals][label] = value;
@@ -94,12 +114,12 @@ export const ScoreCardScreen = () => {
                     };
                   });
                   setScore(prev => {
-                    const score = prev.split('/')[0];
+                    const localScore = prev.split('/')[0];
                     const total = prev.split('/')[1];
-                    if (value) return `${Number(score) + 1}/${total}`;
-                    else return `${Number(score) - 1}/${total}`;
+                    if (value) return `${Number(localScore) + 1}/${total}`;
+                    else return `${Number(localScore) - 1}/${total}`;
                   });
-                  Cache.setDailyProgress(
+                  ProgressService.setDailyProgress(
                     new Date().toDateString(),
                     JSON.stringify({
                       date: new Date().toDateString(),
