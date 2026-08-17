@@ -102,6 +102,9 @@ class CacheService {
   private MONTHLY_SUCCESS_CRITERIA_KEY = 'monthly_goals';
   private WEEKLY_CHECKIN_KEY = 'weekly_checkin';
   private IS_SEEDED_KEY = 'is_cache_seeded';
+
+  private DAILY_PROGRESS = 'daily_progress';
+  private WEIGHT = 'weight';
 }
 
 export const Cache = new CacheService();
