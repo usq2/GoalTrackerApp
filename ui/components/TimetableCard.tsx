@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-import { ColorPallete, Spacing } from '../../contexts/types';
 import { useTheme } from '../../hooks/useTheme';
 import { BaseCard } from '../atoms/BaseCard';
+
+import { applyStyles } from './Timetable.styles';
 
 function getStartTime(timeRange: string): string {
   const parts = timeRange.split('--');
@@ -25,60 +26,27 @@ function getStartTime(timeRange: string): string {
 export const TimetableCard = ({
   time,
   activity,
+  last,
+  active,
 }: {
   time: string;
   activity: string;
+  last: boolean;
   active: boolean;
 }) => {
   const { colors, spacing } = useTheme();
-  const styles = applyStyles(colors, spacing);
+  const styles = applyStyles(colors, spacing, active);
   return (
     <View style={styles.outerCard}>
       <View style={styles.leftContainer}>
         <Text style={styles.time}>{getStartTime(time)}</Text>
+        {active && <Text style={styles.now}>Now</Text>}
       </View>
       <BaseCard
+        last={last}
         cardStyles={styles.textContainer}
         Heading={<Text style={styles.heading}>{activity}</Text>}
       />
     </View>
   );
-};
-
-const applyStyles = (colors: ColorPallete, spacing: Spacing) => {
-  return StyleSheet.create({
-    outerCard: {
-      flexDirection: 'row',
-      marginBottom: spacing.container_margin,
-    },
-    textContainer: {
-      flex: 3,
-      gap: 10,
-      paddingHorizontal: spacing.stack_sm,
-      paddingVertical: spacing.stack_md,
-      borderLeftWidth: 3,
-      borderColor: colors.inverse_surface,
-      borderStartColor: colors.inverse_primary,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderRadius: 5,
-
-      marginEnd: spacing.gutter,
-    },
-    leftContainer: {
-      flex: 1,
-      alignItems: 'flex-end',
-      marginEnd: spacing.stack_md,
-    },
-    time: {
-      fontSize: 16,
-      color: colors.inverse_primary,
-    },
-    heading: {
-      color: colors.surface,
-      paddingVertical: spacing.gutter,
-      fontSize: 18,
-      fontWeight: '700',
-      fontFamily: 'Roboto',
-    },
-  });
 };

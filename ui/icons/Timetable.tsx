@@ -8,7 +8,7 @@ export const TimetableIcon = ({ focused, size, testID }: IconProps) => {
   return (
     <Ionicons
       name={focused ? 'calendar' : 'calendar-outline'}
-      color={focused ? colors.primary : colors.inverse_primary}
+      color={focused ? colors.active_bottom_icon : colors.inactive_bottom_icon}
       size={size}
       testID={`${testID}-TimetableIcon`}
     />

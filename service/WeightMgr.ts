@@ -16,11 +16,14 @@ class WeightMgr {
     });
   }
   getLast7Weight() {
-    const all = this.fetchAllDailyWeight().slice(-7);
-    return all.map(key => {
-      const data = Cache.apis().getString(key);
-      return JSON.parse(data!);
-    });
+    const all = this.fetchAllDailyWeight();
+    return all
+      .map(key => {
+        const data = Cache.apis().getString(key);
+        return JSON.parse(data!);
+      })
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(-7);
   }
   getTodaysWeight() {
     const data = Cache.apis().getString(this.WEIGHT + '_' + new Date().toDateString());

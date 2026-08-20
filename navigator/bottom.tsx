@@ -1,26 +1,27 @@
 import { useState } from 'react';
 
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { ColorPallete } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
 import { MissionIcon } from '../ui/icons/Mission';
 import { ProgressIcon } from '../ui/icons/Progress';
 import { ScoreCardIcon } from '../ui/icons/ScoreCard';
 import { TimetableIcon } from '../ui/icons/Timetable';
 
+import { applyStyles } from './bottom.styles';
+
+const tabs = [
+  { name: 'Mission', icon: MissionIcon, label: 'Mission' },
+  { name: 'Timetable', icon: TimetableIcon, label: 'Timetable' },
+  { name: 'Daily Tasks', icon: ScoreCardIcon, label: 'Scorecard' },
+  { name: 'Weekly Progress', icon: ProgressIcon, label: 'Weekly' },
+];
 export function BottomTabBar() {
   const navigation = useNavigation();
   const { colors } = useTheme();
   const [currFocus, setCurrFocus] = useState('Mission');
-  const tabs = [
-    { name: 'Mission', icon: MissionIcon, label: 'Mission' },
-    { name: 'Timetable', icon: TimetableIcon, label: 'Timetable' },
-    { name: 'Daily Tasks', icon: ScoreCardIcon, label: 'Scorecard' },
-    { name: 'Weekly Progress', icon: ProgressIcon, label: 'Weekly' },
-  ];
   const styles = applyStyles(colors);
   return (
     <View style={styles.container}>
@@ -34,21 +35,9 @@ export function BottomTabBar() {
           }}
         >
           <tab.icon focused={currFocus === tab.name ? true : false} size={24} testID="tab" />
+          <Text style={styles.text}>{tab.label}</Text>
         </TouchableOpacity>
       ))}
     </View>
   );
 }
-
-const applyStyles = (colors: ColorPallete) => {
-  return StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      height: 60,
-      borderTopWidth: 1,
-      borderColor: colors.inverse_surface,
-      backgroundColor: colors.on_background,
-    },
-    button: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  });
-};

@@ -13,14 +13,12 @@ export function getScoreFromGoals(goals) {
 export function PrepLineChartData(weightsArray: Array<{ date: string; weight: string }>) {
   // input -> [{date: 'TUE aug 8 2026', weight: '86.7'}]
 
-  return weightsArray
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .map(data => {
-      return {
-        label: data.date.split(' ')[0],
-        value: Number(data.weight),
-      };
-    });
+  return weightsArray.map(data => {
+    return {
+      label: data.date.split(' ')[2],
+      value: Number(data.weight),
+    };
+  });
 }
 
 export function PrepBarChartData(
@@ -28,7 +26,7 @@ export function PrepBarChartData(
 ) {
   const calculatedScores = scores.map(obj => {
     return {
-      label: obj.date.split(' ')[0],
+      label: obj.date.split(' ')[2],
       value: Number(getScoreFromGoals(obj.report).split('/')[0]),
     };
   });

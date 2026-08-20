@@ -1,16 +1,27 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-import { ColorPallete, Spacing } from '../../contexts/types';
+import { ColorPallete } from '../../contexts/types';
 import { useTheme } from '../../hooks/useTheme';
 import { BaseCard } from '../atoms/BaseCard';
 import { HealthIcon } from '../icons/Health';
 import { StudyIcon } from '../icons/Study';
 
-export const GoalsCard = ({ index, text }: { index: number; text: string }) => {
+import { applyStyles } from './GoalsCard.styles';
+
+export const GoalsCard = ({
+  index,
+  text,
+  last,
+}: {
+  index: number;
+  text: string;
+  last: boolean;
+}) => {
   const { colors, spacing } = useTheme();
-  const styles = applyStyles(colors, spacing, index);
+  const styles = applyStyles(colors, spacing);
   return (
     <BaseCard
+      last={last}
       Logo={<View style={styles.logoContainer}>{determineIcon(text, colors, index)}</View>}
       Heading={
         <View style={styles.textContainer}>
@@ -22,9 +33,9 @@ export const GoalsCard = ({ index, text }: { index: number; text: string }) => {
   );
 };
 
-const getBorderColor = (colors: ColorPallete, index: number) => {
-  if (index % 2) return colors.custom_blue;
-  return colors.inverse_primary;
+const getIconColor = (colors: ColorPallete, index: number) => {
+  if (index % 2) return colors.success;
+  return colors.warning;
 };
 const determineHeading = (text: string) => {
   if (
@@ -47,31 +58,7 @@ const determineIcon = (text: string, colors: ColorPallete, index: number) => {
     text.includes('diet') ||
     text.includes('losing weight')
   ) {
-    return <HealthIcon color={getBorderColor(colors, index)} size={size} />;
+    return <HealthIcon color={getIconColor(colors, index)} size={size} />;
   }
-  return <StudyIcon color={getBorderColor(colors, index)} size={size} />;
-};
-const applyStyles = (colors: ColorPallete, spacing: Spacing, index: number) => {
-  return StyleSheet.create({
-    logoContainer: {
-      flex: 1,
-      borderLeftWidth: 3,
-      borderColor: getBorderColor(colors, index),
-      borderRadius: 5,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      paddingVertical: spacing.stack_md,
-    },
-    textContainer: { flex: 3, gap: 10, paddingVertical: spacing.stack_md },
-    text: {
-      color: getBorderColor(colors, index),
-      fontSize: 16,
-    },
-    heading: {
-      color: colors.surface,
-      fontSize: 24,
-      fontWeight: '700',
-      fontFamily: 'Roboto',
-    },
-  });
+  return <StudyIcon color={getIconColor(colors, index)} size={size} />;
 };

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mission</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#b9c8de",
+                        "inverse-primary": "#494bd6",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-charcoal": "#1c1b1b",
+                        "surface": "#131313",
+                        "titanium-highlight": "#334155",
+                        "secondary-fixed": "#d4e4fa",
+                        "danger-crimson": "#ef4444",
+                        "tertiary-container": "#d97721",
+                        "surface-tint": "#c0c1ff",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary": "#4f2500",
+                        "surface-container-highest": "#353534",
+                        "on-error": "#690005",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#233143",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-background": "#e5e2e1",
+                        "primary": "#c0c1ff",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary-fixed": "#0d1c2d",
+                        "primary-fixed": "#e1e0ff",
+                        "surface-bright": "#3a3939",
+                        "on-secondary-container": "#a7b6cc",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-secondary-fixed-variant": "#39485a",
+                        "primary-container": "#8083ff",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#452000",
+                        "outline-variant": "#464554",
+                        "outline": "#908fa0",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "on-surface-variant": "#c7c4d7",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-fixed": "#07006c",
+                        "surface-container": "#201f1f",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "secondary": "#b9c8de",
+                        "on-primary": "#1000a9",
+                        "on-primary-container": "#0d0096",
+                        "surface-variant": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "tertiary": "#ffb783",
+                        "background": "#131313",
+                        "warning-amber": "#f59e0b",
+                        "success-sage": "#10b981",
+                        "secondary-container": "#39485a",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "xl": "48px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "2xl": "80px",
+                        "gutter": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "display": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-xs": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-xs": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen pt-16 pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-charcoal border-b border-titanium-highlight flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="text-primary hover:bg-titanium-highlight transition-colors duration-200 active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold tracking-tighter text-on-surface">PRO-PRODUCTIVITY</h1>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<nav class="flex gap-4">
+<a class="text-primary font-bold hover:bg-titanium-highlight transition-colors duration-200 px-3 py-2 rounded-lg text-label-sm font-label-sm" href="#">Mission</a>
+<a class="text-on-surface-variant hover:bg-titanium-highlight transition-colors duration-200 px-3 py-2 rounded-lg text-label-sm font-label-sm" href="#">Timetable</a>
+<a class="text-on-surface-variant hover:bg-titanium-highlight transition-colors duration-200 px-3 py-2 rounded-lg text-label-sm font-label-sm" href="#">Scorecard</a>
+<a class="text-on-surface-variant hover:bg-titanium-highlight transition-colors duration-200 px-3 py-2 rounded-lg text-label-sm font-label-sm" href="#">Weekly</a>
+</nav>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-titanium-highlight shrink-0">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate executive against a dark, minimalist background. The lighting is dramatic and cinematic, highlighting sharp features. The color palette is composed of deep blacks and crisp whites, conveying a sense of authority and precision. The style is hyper-realistic and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPmxyVe1_kXPIBM1Kzo9HDl1rc1yTIuUC4MF59vUjbJgmaUl6GHvef1NUF_rIZVmmZd2tj1Sbi9a4z0dYIEFFhnLjcqxEE3MaImRcC1lOXoEscJEMO86zRy18qASeA6c07hOaj4EImqHUV0l0tIRqbGkumT8vLaQ867eZ6aidS_19d3B1VVPVTZXc1aXWCHzEANN13EjXKKYChES3PElITqa2g86_uVcOrjJRth7VvkD1dTzLdlDv_2Q"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<!-- Hero Section -->
+<section class="mb-xl text-center">
+<h2 class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-widest mb-sm">Time Remaining</h2>
+<div class="text-display font-display text-warning-amber">12 Days Left</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Monthly Objectives -->
+<section class="md:col-span-8 bg-surface-charcoal border border-titanium-highlight rounded-xl p-lg">
+<h3 class="text-headline-md font-headline-md mb-lg">Monthly Objectives</h3>
+<div class="space-y-sm">
+<!-- Completed Goal -->
+<div class="flex items-center justify-between p-md border-b border-titanium-highlight last:border-0 hover:bg-surface-container-highest transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-success-sage">check_circle</span>
+<div>
+<h4 class="text-body-md font-body-md font-semibold">Deploy Phase 1 Core Infrastructure</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Server provisioning and network setup.</p>
+</div>
+</div>
+<span class="bg-success-sage/15 text-success-sage px-2 py-1 rounded text-label-xs font-label-xs">Completed</span>
+</div>
+<!-- In-Progress Goal -->
+<div class="flex items-center justify-between p-md border-b border-titanium-highlight last:border-0 hover:bg-surface-container-highest transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-warning-amber">sync</span>
+<div>
+<h4 class="text-body-md font-body-md font-semibold">Optimize Database Queries</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Targeting 20% reduction in latency.</p>
+</div>
+</div>
+<span class="bg-warning-amber/15 text-warning-amber px-2 py-1 rounded text-label-xs font-label-xs">In Progress</span>
+</div>
+<!-- At-Risk Goal -->
+<div class="flex items-center justify-between p-md border-b border-titanium-highlight last:border-0 hover:bg-surface-container-highest transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-danger-crimson">warning</span>
+<div>
+<h4 class="text-body-md font-body-md font-semibold">Finalize Security Audit</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Pending external vendor report.</p>
+</div>
+</div>
+<span class="bg-danger-crimson/15 text-danger-crimson px-2 py-1 rounded text-label-xs font-label-xs">At Risk</span>
+</div>
+</div>
+</section>
+<!-- Side Panel (Metrics/Quick Actions) -->
+<aside class="md:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-charcoal border border-titanium-highlight rounded-xl p-lg flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-headline-lg mb-sm text-primary">target</span>
+<h3 class="text-headline-md font-headline-md mb-xs">Overall Progress</h3>
+<p class="text-display font-display text-on-surface">68%</p>
+<div class="w-full bg-surface-container-highest h-2 rounded-full mt-md overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+<div class="bg-surface-charcoal border border-titanium-highlight rounded-xl p-lg" data-alt="A dark, abstract representation of data flowing through a network. Utilizing deep obsidian and charcoal tones with subtle geometric patterns. The overall feel is highly technical, precise, and sophisticated, avoiding any neon or bright colors. A premium corporate modern style visualization." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1yA6Tgowxyx1bDmdx8YDy-nrMjDIYTV__riLK8vvYn3aCTB3xaTWNShq0NUMhaxFzxHRcmmaVssw6syMaTHQh3qq0dMG4Wp5zq0g6qWMVT2e5QGK5b_ibcPeUEfFRXpltvyNt2BUrOz31iGtfb7vevCian5HR4jvljL18fqANefjN15dqKLOikXNr1R6tM6c53y6Esez2lzfDCaBC3O2z401rKrnuXBAHdvFWkdwg6G9bvQgTZQI1eQ')">
+<h3 class="text-body-md font-body-md font-semibold mb-sm">System Health</h3>
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-on-surface-variant">Uptime</span>
+<span class="text-success-sage">99.99%</span>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 pb-2 bg-surface-container-lowest border-t border-titanium-highlight">
+<button class="flex flex-col items-center justify-center bg-secondary-container text-secondary-fixed-dim rounded-lg px-3 py-1 active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">target</span>
+<span class="text-label-xs font-label-xs mt-1">Mission</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container px-3 py-1 hover:bg-surface-container-highest transition-colors active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">schedule</span>
+<span class="text-label-xs font-label-xs mt-1">Timetable</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container px-3 py-1 hover:bg-surface-container-highest transition-colors active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="text-label-xs font-label-xs mt-1">Scorecard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container px-3 py-1 hover:bg-surface-container-highest transition-colors active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">calendar_view_week</span>
+<span class="text-label-xs font-label-xs mt-1">Weekly</span>
+</button>
+</nav>
+</body></html>

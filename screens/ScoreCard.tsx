@@ -1,23 +1,19 @@
-import { useState } from 'react';
+import { View, Text, ScrollView, TextInput } from 'react-native';
 
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
-
-import { Cache } from '../cache/cache.service';
-import { ColorPallete, Spacing } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
-import { CaloriesService } from '../service/CaloriesMgr';
-import { ProgressService } from '../service/ProgressMgr';
-import { WeightService } from '../service/WeightMgr';
+import { useScoreCardPresenter } from '../presenter/ScoreCard.presenter';
 import { BaseCard } from '../ui/atoms/BaseCard';
 import { Checkbox } from '../ui/atoms/Checkbox';
-import { TargetIcon } from '../ui/icons/Target';
+import EfficiencyCard from '../ui/components/EfficiencyCard';
 import { CheckboxProps } from '../ui/types/Checkbox.types';
-import { getScoreFromGoals } from '../utils/data';
+
+import { applyStyles } from './ScoreCard.styles';
 
 const CheckableCard = ({ label, value, onValueChange }: CheckboxProps) => {
   const { colors, spacing } = useTheme();
   return (
     <BaseCard
+      last={false}
       cardStyles={{
         padding: spacing.gutter,
       }}
@@ -32,148 +28,55 @@ const CheckableCard = ({ label, value, onValueChange }: CheckboxProps) => {
     />
   );
 };
-function flattenObjContainsArray(obj: object) {
-  const flattendObj: { [key: string]: { [key: string]: boolean } } = {};
-  for (const [key, value] of Object.entries(obj)) {
-    flattendObj[key] = {};
-    if (Array.isArray(value)) {
-      value.forEach(val => {
-        flattendObj[key][val] = false;
-      });
-    }
-  }
-  return flattendObj;
-}
 
 export const ScoreCardScreen = () => {
   const { colors, spacing } = useTheme();
   const styles = applyStyles(colors, spacing);
-  const [weight, setWeight] = useState<string>('');
-  const [calories, setCalories] = useState<string>('');
-  const [goals, setGoals] = useState<Record<string, Record<string, boolean>>>(() => {
-    const todaysData = ProgressService.getTodaysProgress();
-    if (todaysData) {
-      return todaysData.report;
-    }
-    const cachedGoals = Cache.getDailyGoals();
-    if (!cachedGoals) return {};
-    return flattenObjContainsArray(cachedGoals);
-  });
 
-  const [score, setScore] = useState<string>(() => getScoreFromGoals(goals));
-
-  function handleWeight(text: string) {
-    setWeight(text);
-    WeightService.setDailyWeight(
-      new Date().toDateString(),
-      JSON.stringify({ date: new Date().toDateString(), weight: text }),
-    );
-  }
-  function handleCalories(text: string) {
-    setCalories(text);
-    CaloriesService.setDailyCaloriesDeficit(
-      new Date().toDateString(),
-      JSON.stringify({ date: new Date().toDateString(), caloriesDeficit: text }),
-    );
-  }
+  const { onCheck, goals, calories, weight, handleWeight, handleCalories, percentageScore } =
+    useScoreCardPresenter();
   return (
-    <>
+    <ScrollView style={styles.bodyContainer}>
       <View style={styles.heading}>
-        <TargetIcon color={colors.primary} size={32} />
-        <Text style={styles.headerText}>{score}</Text>
+        <EfficiencyCard score={percentageScore} />
       </View>
-      <ScrollView style={styles.bodyContainer}>
-        <TextInput
-          style={styles.input}
-          value={weight}
-          onChangeText={handleWeight}
-          placeholder="Enter today's weight..."
-          placeholderTextColor={colors.primary}
-          keyboardType="numeric"
-          key="weight"
-        />
-        <TextInput
-          style={styles.input}
-          value={calories}
-          onChangeText={handleCalories}
-          placeholder="Enter today's calories deficit..."
-          placeholderTextColor={colors.primary}
-          keyboardType="numeric"
-          key="calories"
-        />
-        {Object.keys(goals).map((dailyGoals, index) => {
-          return (
-            <>
-              <Text key={index} style={styles.checkHeader}>
-                {dailyGoals}
-              </Text>
-              {Object.keys(goals[dailyGoals]).map(label => {
-                function onCheck(value: boolean) {
-                  setGoals(prev => {
-                    prev[dailyGoals][label] = value;
-                    return {
-                      ...prev,
-                    };
-                  });
-                  setScore(prev => {
-                    const localScore = prev.split('/')[0];
-                    const total = prev.split('/')[1];
-                    if (value) return `${Number(localScore) + 1}/${total}`;
-                    else return `${Number(localScore) - 1}/${total}`;
-                  });
-                  ProgressService.setDailyProgress(
-                    new Date().toDateString(),
-                    JSON.stringify({
-                      date: new Date().toDateString(),
-                      report: goals,
-                    }),
-                  );
-                }
-                return (
-                  <CheckableCard
-                    label={label}
-                    value={goals[dailyGoals][label]}
-                    onValueChange={onCheck}
-                    key={index}
-                  />
-                );
-              })}
-            </>
-          );
-        })}
-      </ScrollView>
-    </>
+      <TextInput
+        style={styles.input}
+        value={weight}
+        onChangeText={handleWeight}
+        placeholder="Enter today's weight..."
+        placeholderTextColor={colors.on_background}
+        keyboardType="numeric"
+        key="weight"
+      />
+      <TextInput
+        style={styles.input}
+        value={calories}
+        onChangeText={handleCalories}
+        placeholder="Enter today's calories deficit..."
+        placeholderTextColor={colors.on_background}
+        keyboardType="numeric"
+        key="calories"
+      />
+      {Object.keys(goals).map((dailyGoals, index) => {
+        return (
+          <View style={styles.sectionCard}>
+            <Text key={index} style={styles.checkHeader}>
+              {dailyGoals}
+            </Text>
+            {Object.keys(goals[dailyGoals]).map(label => {
+              return (
+                <CheckableCard
+                  label={label}
+                  value={goals[dailyGoals][label]}
+                  onValueChange={value => onCheck(value, dailyGoals, label)}
+                  key={`${dailyGoals}-${label}-${index}`}
+                />
+              );
+            })}
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
-
-const applyStyles = (colors: ColorPallete, spacing: Spacing) =>
-  StyleSheet.create({
-    heading: {
-      flexDirection: 'row',
-      backgroundColor: colors.background,
-      alignItems: 'center',
-      gap: spacing.gutter,
-      padding: spacing.container_margin,
-    },
-    input: {
-      margin: spacing.stack_sm,
-      backgroundColor: colors.on_primary_container,
-      color: colors.inverse_primary,
-    },
-    headerText: {
-      fontSize: 20,
-      color: colors.primary,
-    },
-    bodyContainer: {
-      flex: 2,
-      backgroundColor: colors.background,
-      gap: 10,
-    },
-    spacing: { paddingStart: 10, marginBottom: 10 },
-    checkHeader: {
-      color: colors.inverse_primary,
-      textTransform: 'capitalize',
-      margin: spacing.gutter,
-      fontSize: 24,
-    },
-  });

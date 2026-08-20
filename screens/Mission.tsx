@@ -1,71 +1,44 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { Cache } from '../cache/cache.service';
-import { ColorPallete } from '../contexts/types';
 import { useTheme } from '../hooks/useTheme';
+import { useMissionPresenter } from '../presenter/Mission.presenter';
 import { GoalsCard } from '../ui/components/GoalsCard';
-import { DailyQuestions } from '../ui/components/Questions';
-import { daysLeftInCurrMonth } from '../utils/date';
+
+import { applyStyles } from './Mission.styles';
 
 const Goals = () => {
   const storedGoals = Cache.getGoals();
   if (storedGoals) {
     return storedGoals.priorities.map((text: string, index: number) => {
-      return <GoalsCard text={text} index={index} key={index} />;
+      return (
+        <GoalsCard
+          text={text}
+          index={index}
+          key={index}
+          last={index === storedGoals.priorities.length - 1}
+        />
+      );
     });
   } else {
     return <></>;
   }
 };
 export const MissionScreen = () => {
-  const { colors } = useTheme();
-  const styles = applyStyles(colors);
+  const { colors, spacing } = useTheme();
+  const styles = applyStyles(colors, spacing);
+
+  const { daysLeft } = useMissionPresenter();
   return (
-    <>
+    <View style={styles.container}>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>
-          For the next
-          <Text style={[styles.heading, styles.emphasize]}> {daysLeftInCurrMonth()} days</Text>
-        </Text>
+        <Text style={styles.heading}>TIME REMAINING</Text>
+        <Text style={[styles.heading, styles.emphasize]}> {daysLeft} Days Left</Text>
       </View>
       <View style={styles.bodyContainer}>
-        <Text style={[styles.heading, styles.spacing]}>Monthly Goals</Text>
+        <Text style={styles.goalHeading}>Monthly Goals</Text>
         <Goals />
       </View>
-    </>
+    </View>
   );
 };
-
-const applyStyles = (colors: ColorPallete) =>
-  StyleSheet.create({
-    headingContainer: {
-      flex: 1,
-      alignItems: 'center',
-      backgroundColor: colors.background,
-      justifyContent: 'center',
-    },
-    bodyContainer: {
-      flex: 2,
-      backgroundColor: colors.background,
-      gap: 10,
-    },
-    heading: {
-      fontSize: 24,
-      fontFamily: 'roboto',
-      fontWeight: 'bold',
-      color: colors.surface_bright,
-      letterSpacing: 3,
-    },
-    goal: {
-      fontSize: 24,
-      fontWeight: '700',
-      marginHorizontal: 10,
-      color: colors.tertiary,
-    },
-    emphasize: {
-      fontSize: 30,
-      color: colors.inverse_primary,
-      fontFamily: 'sans-serif',
-    },
-    spacing: { paddingStart: 10, marginBottom: 10 },
-  });
