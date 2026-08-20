@@ -1,38 +1,30 @@
-import { Text } from 'react-native';
-
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { useTheme } from '../hooks/useTheme';
-import { AnalyticsScreen } from '../screens/AnalyticsScreen';
+import { AnalyticsScreen, ExportProgress } from '../screens/AnalyticsScreen';
 import { DSPScreen } from '../screens/DailyStudyPlan';
 import { MissionScreen } from '../screens/Mission';
 import { ScoreCardScreen } from '../screens/ScoreCard';
 import { TimetableScreen } from '../screens/Timetable';
 import { WeeklyProgressScreen } from '../screens/WeeklyProgress';
 
-function Weekly() {
-  return <Text> Weekly </Text>;
-}
+import { getDrawerOptions } from './drawer.options';
 
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
   const { colors } = useTheme();
+  const options = getDrawerOptions(colors);
   return (
     <Drawer.Navigator
       initialRouteName="Mission"
       screenOptions={{
         drawerPosition: 'left',
-        headerStyle: {
-          backgroundColor: colors.on_background,
-        },
-        headerTintColor: colors.inverse_primary,
-        headerTitleStyle: {
-          textTransform: 'uppercase',
-          fontWeight: '900',
-          flex: 1,
-          textAlignVertical: 'center',
-        },
+        drawerStyle: options.drawerStyle,
+        drawerLabelStyle: options.drawerLabelStyle,
+        headerStyle: options.headerStyle,
+        headerTintColor: options.headerTintColor,
+        headerTitleStyle: options.headerTitleStyle,
       }}
     >
       <Drawer.Screen
@@ -44,14 +36,14 @@ export const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="Monthly Progress"
-        component={Weekly}
+        component={DSPScreen}
         options={{
           drawerLabel: 'Monthly',
         }}
       />
       <Drawer.Screen
         name="Analytics"
-        component={AnalyticsScreen}
+        component={ExportProgress}
         options={{
           drawerLabel: 'Analytics',
         }}

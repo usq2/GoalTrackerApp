@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-import { ColorPallete, Spacing } from '../../contexts/types';
 import { useTheme } from '../../hooks/useTheme';
 import { BaseCard } from '../atoms/BaseCard';
+
+import { applyStyles } from './DSPCard.styles';
 
 function MapActivity(activity: string | Array<string>) {
   const { colors, spacing } = useTheme();
@@ -14,7 +15,15 @@ function MapActivity(activity: string | Array<string>) {
   }
   return <Text style={styles.heading}>{activity}</Text>;
 }
-export const DSPCard = ({ day, activity }: { day: string; activity: string | Array<string> }) => {
+export const DSPCard = ({
+  day,
+  activity,
+  last,
+}: {
+  day: string;
+  activity: string | Array<string>;
+  last: boolean;
+}) => {
   const { colors, spacing } = useTheme();
   const styles = applyStyles(colors, spacing);
   return (
@@ -25,49 +34,8 @@ export const DSPCard = ({ day, activity }: { day: string; activity: string | Arr
       <BaseCard
         cardStyles={styles.card}
         Heading={<View style={styles.textContainer}>{MapActivity(activity)}</View>}
+        last={last}
       />
     </View>
   );
-};
-
-const applyStyles = (colors: ColorPallete, spacing: Spacing) => {
-  return StyleSheet.create({
-    outerCard: {
-      flexDirection: 'row',
-    },
-    card: {
-      flexDirection: 'row',
-      marginHorizontal: 10,
-      backgroundColor: colors.background,
-      marginBottom: 15,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: colors.custom_blue,
-      borderRadius: 5,
-      flex: 3,
-    },
-
-    textContainer: {
-      flex: 3,
-      gap: 10,
-      paddingHorizontal: spacing.stack_sm,
-      paddingVertical: spacing.stack_md,
-      borderLeftWidth: 3,
-      borderColor: colors.custom_blue,
-      borderRadius: 5,
-    },
-    leftContainer: {
-      flex: 1,
-      alignItems: 'flex-end',
-    },
-    time: {
-      fontSize: 16,
-      color: colors.surface_bright,
-    },
-    heading: {
-      color: colors.custom_blue,
-      fontSize: 18,
-      fontWeight: '700',
-      fontFamily: 'Roboto',
-    },
-  });
 };

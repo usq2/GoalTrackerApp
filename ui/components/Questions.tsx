@@ -1,24 +1,22 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { Cache } from '../../cache/cache.service';
-import { ColorPallete } from '../../contexts/types';
 import { useTheme } from '../../hooks/useTheme';
 import { BaseCard } from '../atoms/BaseCard';
 import { QuestionMarkIcon } from '../icons/QuestionMark';
 
+import { applyStyles } from './Questions.styles';
+
 export const DailyQuestions = () => {
   const { colors, spacing } = useTheme();
   const dailyQuestions = Cache.getDailyRules();
-  const styles = applyStyles(colors);
+  const styles = applyStyles(colors, spacing);
   return (
     <BaseCard
-      cardStyles={{
-        backgroundColor: colors.on_surface,
-        padding: spacing.stack_sm,
-        flexDirection: 'row',
-      }}
+      last={false}
+      cardStyles={styles.containerStyle}
       Heading={
-        <View style={{ flex: 1, alignItems: 'flex-start', marginStart: spacing.stack_lg }}>
+        <View style={styles.heading}>
           {dailyQuestions.questions.map((text: string, index: number) => {
             return (
               <Text style={styles.text} key={index}>
@@ -28,17 +26,7 @@ export const DailyQuestions = () => {
           })}
         </View>
       }
-      Logo={<QuestionMarkIcon size={32} color={colors.primary} />}
+      Logo={<QuestionMarkIcon size={32} color={colors.warning_heading} />}
     />
   );
-};
-
-const applyStyles = (colors: ColorPallete) => {
-  return StyleSheet.create({
-    text: {
-      fontSize: 14,
-      fontFamily: 'Inter',
-      color: colors.on_secondary,
-    },
-  });
 };

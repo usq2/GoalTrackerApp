@@ -10,10 +10,12 @@ class ProgressMgr {
   }
   getLast7DailyProgress() {
     const all = this.fetchAllDailyProgress().slice(-7);
-    return all.map(key => {
-      const data = Cache.apis().getString(key);
-      return JSON.parse(data!);
-    });
+    return all
+      .map(key => {
+        const data = Cache.apis().getString(key);
+        return JSON.parse(data!);
+      })
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
   }
   getAllDailyProgress() {
     const all = this.fetchAllDailyProgress();
