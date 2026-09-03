@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { Alert } from 'react-native';
-
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import { ProgressService } from '../service/ProgressMgr';
@@ -16,7 +14,11 @@ export const useExportProgress = () => {
     const retVal = [];
     last7DaysProgress.forEach(day => {
       const daysWeight = last7DaysWeight.find(weight => weight.date === day.date);
-      retVal.push({ date: day.date, report: { ...day.report, weight: daysWeight.weight } });
+      if (daysWeight) {
+        retVal.push({ date: day.date, report: { ...day.report, weight: daysWeight.weight } });
+      } else {
+        retVal.push({ date: day.date, report: { ...day.report } });
+      }
     });
     setClipboardText(JSON.stringify(retVal));
     Clipboard.setString(JSON.stringify(retVal));
