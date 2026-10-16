@@ -6,9 +6,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import { seedCache } from './cache/cache.utils';
-import { ThemeProvider } from './contexts/themeContext';
-import { RootNavigator } from './navigator/mainNavigator';
+import { ThemeProvider } from '@contexts/themeContext';
+import { seedCache } from '@modules/cache/cache.utils';
+
+import { RootNavigator } from '@app/navigator/mainNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';

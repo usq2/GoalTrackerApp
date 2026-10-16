@@ -2,11 +2,11 @@
 
    1. Basic Setup
 
-      1. Watermelon DB installation and setup (1 hour maybe)
+      1. Watermelon DB installation and setup [DONE]
 
       // WatermelonDb didnt work, going with react-native-nitro-sqlite
 
-      easier to install 2. DB schema and table creation (2 hours maybe)
+      easier to install 2. DB schema and table creation
 
    2. Finite State Machine Setup
 

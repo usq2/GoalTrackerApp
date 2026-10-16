@@ -1,6 +1,18 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
+    "paths": {
+      "@contexts/*": ["./src/app/contexts/*"],
+      "@features/*": ["./src/app/features/*"],
+      "@app/*": ["./src/app/*"],
+      "@hooks/*": ["./src/app/hooks/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@platform/*": ["./src/platform/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@stores/*": ["./src/app/stores/*"],
+      "@ui/*": ["./src/ui/*"],
+      "@utils/*": ["./src/utils/*"]
+    },
     "types": ["jest"]
   },
   "include": ["**/*.ts", "**/*.tsx"],

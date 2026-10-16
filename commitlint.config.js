@@ -1,54 +1,60 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
+  parserPreset: {
+    parserOpts: {
+      // Matches 1 or more ticket tags: [T-001], [T-001][T-002], [ABC-1][DEF-2][GHI-3], etc.
+      headerPattern: /^((?:\[[A-Za-z0-9]+-[0-9]+\])+)\s+(\w+)(?:\((.*)\))?:\s+(.*)$/,
+      headerCorrespondence: ['tickets', 'type', 'scope', 'subject'],
+    },
+  },
   rules: {
-    // Type validation
     'type-enum': [
       2,
       'always',
       [
-        'feat', // A new feature
-        'fix', // A bug fix
-        'docs', // Documentation only changes
-        'style', // Changes that do not affect the meaning of the code (white space, formatting, semicolons, etc)
-        'refactor', // A code change that neither fixes a bug nor adds a feature
-        'perf', // A code change that improves performance
-        'test', // Adding missing tests or correcting existing tests
-        'chore', // Changes to the build process, dependency manager, CI/CD configuration, or auxiliary tools
-        'ci', // Changes to CI/CD configuration files and scripts
-        'revert', // Reverts a previous commit
+        'feat',
+        'fix',
+        'docs',
+        'style',
+        'refactor',
+        'perf',
+        'test',
+        'build',
+        'ci',
+        'chore',
+        'revert',
       ],
     ],
-
-    // Type must be lowercase
-    'type-case': [2, 'always', 'lowercase'],
-
-    // Type cannot be empty
-    'type-empty': [2, 'never'],
-
-    // Scope can be empty or provided
-    'scope-empty': [0, 'never'],
-
-    // Scope case must be lowercase
-    'scope-case': [2, 'always', 'lowercase'],
-
-    // Subject cannot be empty
-    'subject-empty': [2, 'never'],
-
-    // Subject cannot end with period
-    'subject-full-stop': [2, 'never', '.'],
-
-    // Subject case must be lowercase
-    'subject-case': [2, 'always', 'lower-case'],
-
-    // Subject max length (conventional commits recommendation: 50, but we allow 72)
-    'subject-max-length': [2, 'always', 100],
-
-    // Body max line length
-    'body-leading-blank': [2, 'always'],
-    'body-max-line-length': [2, 'always', 100],
-
-    // Footer max line length
-    'footer-leading-blank': [2, 'always'],
-    'footer-max-line-length': [2, 'always', 100],
+    // Require valid ticket tags at the start
+    'header-tickets-valid': [2, 'always'],
   },
+  plugins: [
+    {
+      rules: {
+        'header-tickets-valid': parsed => {
+          const { tickets } = parsed;
+
+          // Check if tickets prefix exists
+          if (!tickets) {
+            return [
+              false,
+              'Commit message must start with 1 or more ticket IDs (e.g., "[T-001] feat: message" or "[T-001][T-002] feat: message")',
+            ];
+          }
+
+          // Validate each ticket match inside [ ]
+          const ticketMatches = tickets.match(/\[[A-Za-z0-9]+-[0-9]+\]/g);
+
+          if (!ticketMatches || ticketMatches.join('') !== tickets) {
+            return [
+              false,
+              'Invalid ticket format. Ensure all tickets follow [PREFIX-NUMBER] without extra characters inside or between brackets.',
+            ];
+          }
+
+          return [true];
+        },
+      },
+    },
+  ],
 };

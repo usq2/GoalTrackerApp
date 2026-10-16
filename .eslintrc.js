@@ -1,20 +1,23 @@
 module.exports = {
   root: true,
   extends: ['@react-native-community', 'prettier'],
-  parser: '@babel/eslint-parser',
+  parser: '@babel/eslint-parser', // Handles root JavaScript files (metro.config, babel.config, etc.)
   env: {
     'react-native/react-native': true,
     es2021: true,
     node: true,
   },
-  plugins: ['react', 'react-native', 'import', 'prettier'],
+  plugins: ['react', 'react-native', 'import', 'prettier', 'jest'],
   settings: {
     react: {
       version: 'detect',
     },
     'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
       node: {
-        paths: ['src'],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       },
     },
@@ -103,12 +106,13 @@ module.exports = {
 
   overrides: [
     {
+      // Targeting only TypeScript files ensures Babel handles JS and TypeScript-ESLint handles TS
       files: ['*.ts', '*.tsx'],
-      parser: '@typescript-eslint/parser',
+      parser: '@typescript-eslint/parser', // ✅ Uses the updated parser
       extends: ['plugin:@typescript-eslint/recommended'],
-      plugins: ['@typescript-eslint'],
+      plugins: ['@typescript-eslint'], // ✅ Safely loads the plugin since it's now installed
       rules: {
-        'no-unused-vars': 'off', // Turn off JS rule to avoid conflicts in TS
+        'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': [
           'warn',
           {
